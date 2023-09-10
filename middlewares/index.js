@@ -1,3 +1,4 @@
+const validateBodyElements = require("./validateBodyElements");
 const validateBody = require("./validateBody");
 
-module.exports = { validateBody };
+module.exports = { validateBodyElements, validateBody };

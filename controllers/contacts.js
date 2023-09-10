@@ -37,10 +37,6 @@ const addNewContact = async (req, res, next) => {
 
 const updateById = async (req, res, next) => {
   try {
-    if (Object.keys(req.body).length === 0) {
-      throw httpError(400, "Missing fields");
-    }
-
     const { contactId } = req.params;
     const result = await contacts.updateContact(contactId, req.body);
     if (!result) {
