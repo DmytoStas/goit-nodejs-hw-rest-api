@@ -14,13 +14,13 @@ router.get("/:contactId", controllers.getById);
 
 router.post(
   "/",
-  validateBody(),
   validateBodyElements(schemas.addSchema),
   controllers.addNewContact
 );
 
 router.put(
   "/:contactId",
+  validateBody(),
   validateBodyElements(schemas.addSchema),
   controllers.updateById
 );
