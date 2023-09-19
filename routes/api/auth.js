@@ -15,25 +15,25 @@ const { User } = require("../../models/user");
 const router = express.Router();
 
 router.post(
-  "/users/register",
+  "/register",
   validateBody(),
   validateBodyElements(schemas.authSchema),
   controllers.register
 );
 
 router.post(
-  "/users/login",
+  "/login",
   validateBody(),
   validateBodyElements(schemas.authSchema),
   controllers.login
 );
 
-router.post("/users/logout", authenticate(User), controllers.logout);
+router.post("/logout", authenticate(User), controllers.logout);
 
-router.get("/users/current", authenticate(User), controllers.getCurrent);
+router.get("/current", authenticate(User), controllers.getCurrent);
 
 router.patch(
-  "/users",
+  "/",
   authenticate(User),
   validateBodyElements(schemas.updateSubscriptionSchema),
   controllers.updateSubscription
