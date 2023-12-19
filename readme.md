@@ -1,31 +1,76 @@
-## GoIT Node.js Course Template Homework
+# phonebook-api
 
-Виконайте форк цього репозиторію для виконання домашніх завдань (2-6)
-Форк створить репозиторій на вашому http://github.com
+## Overview
 
-Додайте ментора до колаборації
+**phonebook-api** is the backend for the Phonebook application. This API provides endpoints for managing users and a contact list, including user authentication, updating user avatar/subscription and user verification by email.
 
-Для кожної домашньої роботи створюйте свою гілку.
+## Usage
 
-- hw02
-- hw03
-- hw04
-- hw05
-- hw06
+To get started with using the API, you can use the hosted version of the project by following the `https://phonebook-api-qii3.onrender.com/ + chosen endpoint`. First, the user needs to be authorized and email must be verified, as all other functionality is protected.
 
-Кожна нова гілка для др повинна робитися з master
+### Local Usage
 
-Після того, як ви закінчили виконувати домашнє завдання у своїй гілці, необхідно зробити пулл-реквест (PR). Потім додати ментора для рев'ю коду. Тільки після того, як ментор заапрувить PR, ви можете виконати мердж гілки з домашнім завданням у майстер.
+Alternatively, instead of using the hosted version of the product, the API can be run locally. To run this project locally, follow these steps:
 
-Уважно читайте коментарі ментора. Виправте зауваження та зробіть коміт у гілці з домашнім завданням. Зміни підтягнуться у PR автоматично після того, як ви відправите коміт з виправленнями на github
-Після виправлення знову додайте ментора на рев'ю коду.
+1. Clone the repository to your local machine.
+2. Update the `.env` file with the necessary variables as described in `env.example`.
+3. Install the necessary dependencies using the following command:
 
-- При здачі домашньої роботи є посилання на PR
-- JS-код чистий та зрозумілий, для форматування використовується Prettier
+   ```bash
+   npm install
+   ```
 
-### Команди:
+4. Start the development server:
 
-- `npm start` &mdash; старт сервера в режимі production
-- `npm run start:dev` &mdash; старт сервера в режимі розробки (development)
-- `npm run lint` &mdash; запустити виконання перевірки коду з eslint, необхідно виконувати перед кожним PR та виправляти всі помилки лінтера
-- `npm lint:fix` &mdash; та ж перевірка лінтера, але з автоматичними виправленнями простих помилок
+   ```bash
+   npm start
+   ```
+
+5. Open your Postman application and go to `http://localhost:3000 + chosen endpoint`.
+
+## Endpoints
+
+### `/users`
+
+- `POST` - `/register`: Receives the body with required fields: `email`, `password`. Returns `{user: {email, subscription}}`
+
+- `POST` - `/login`: Receives the body with required fields: `email`, `password`. Returns `{token, user: {email, subscription}}`
+
+- `POST` - `/logout`: Returns status `204` for successful logout
+
+- `GET` - `/current`: Check the current user. Returns `{email, subscription}`
+
+- `PATCH` - `/`: Update subscription. Receives the body with required field `subscription`. Returns `{email, subscription}`
+
+- `PATCH` - `/avatars`: Receives the from data with the required field `avatar`. Returns `{avatarURL}`
+
+- `POST` - `/verify`: It exists to request email re-verification. Receives the body with required field `email`. Returns a message about success
+
+- `GET` - `/verify/:verificationToken`: Expects a dynamic parameter `verificationToken`. Returns a message about success
+
+### `/api/contacts`
+
+- `GET` - `/`: Expects query params `{ page, limit, favorite }`. Returns paginated elements with the option of filtering by `favorite`
+
+- `GET` - `/:contactId`: Expects a dynamic parameter `contactId`. Returns founded item
+
+- `POST` - `/`: Receives the body with required fields: `name`, `email`, `phone`. Returns an object of **created** contact `{name, email, phone, favorite, owner, _id, createdAt, updatedAt}`
+
+- `PUT` - `/:contactId`: Expects a dynamic parameter `contactId` and receives the body with required fields: `name`, `email`, `phone`. Returns an object of **updated** contact
+
+- `PATCH` - `/:contactId/favorite`: Expects a dynamic parameter `contactId` and receives the body with required field `favorite`. Returns uptaded contact
+
+- `DELETE` - `/:contactId`: Expects a dynamic parameter `contactId`. Returns a message success
+
+## Technologies Used
+
+- Node.js
+- JavaScript
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- Sendgrid
+- Joi
+- Multer
+- Gravatar

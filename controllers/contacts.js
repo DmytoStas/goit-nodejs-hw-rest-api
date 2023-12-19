@@ -6,17 +6,15 @@ const getAll = async (req, res) => {
   const { page = 1, limit = 10, favorite } = req.query;
   const skip = (page - 1) * limit;
 
-  const result = await Contact.find({ owner }, "-createdAt -updatedAt", {
-    skip,
-    limit,
-  }).populate("owner", "email");
-
-  if (favorite) {
-    const favContacts = result.filter((contact) => contact.favorite);
-    return res.json(favContacts);
-  }
-
-  res.json(result);
+  const result = await Contact.find(
+    { owner, favorite: favorite ?? [true, false] },
+    "-createdAt -updatedAt",
+    {
+      skip,
+      limit,
+    }
+  ).populate("owner", "email subscription");
+  res.status(200).json(result);
 };
 
 const getById = async (req, res) => {
